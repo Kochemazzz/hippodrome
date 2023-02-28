@@ -1,6 +1,7 @@
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.List;
@@ -19,9 +20,9 @@ public class HippodromeTest {
 		}
 	}
 	@ParameterizedTest
-	@ValueSource(strings = {"\t", "", " ", "\n"})
-		// six numbers
-	void parameterNameIsNullException(String names) {
+	@NullSource
+	// six numbers
+	public void parameterNameIsNullException(String names) {
 		IllegalArgumentException e = Assert.assertThrows(IllegalArgumentException.class, () -> new Horse(names, 1, 2));
 		Assert.assertEquals("Name cannot be null.", e.getMessage());
 	}
@@ -35,9 +36,19 @@ public class HippodromeTest {
 	}
 	@ParameterizedTest
 	@ValueSource(strings = {"", " ", "\n", "\t",})
-		// six numbers
-	void parameterNameIsBlankException(String names) {
+	// six numbers
+	public void parameterNameIsBlankException(String names) {
 		IllegalArgumentException e = Assert.assertThrows(IllegalArgumentException.class, () -> new Horse(names, 1, 2));
 		Assert.assertEquals("Name cannot be blank.", e.getMessage());
+	}
+	@Test
+	public void speedIsNotNegative() {
+		IllegalArgumentException e = Assert.assertThrows(IllegalArgumentException.class, () -> new Horse("Ivan", -1, 2));
+		Assert.assertEquals("Speed cannot be negative.", e.getMessage());
+	}
+	@Test
+	public void distanceIsNotNegative() {
+		IllegalArgumentException e = Assert.assertThrows(IllegalArgumentException.class, () -> new Horse("Ivan", 1, -2));
+		Assert.assertEquals("Distance cannot be negative.", e.getMessage());
 	}
 }
