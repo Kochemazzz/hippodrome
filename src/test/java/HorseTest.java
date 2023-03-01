@@ -4,9 +4,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.List;
-import java.util.Objects;
-public class HippodromeTest {
+import java.lang.reflect.Field;
+public class HorseTest {
 	@Test
 	public void nullNameException() {
 		Assert.assertThrows(IllegalArgumentException.class, () -> new Horse(null, 1, 2));
@@ -50,5 +49,39 @@ public class HippodromeTest {
 	public void distanceIsNotNegative() {
 		IllegalArgumentException e = Assert.assertThrows(IllegalArgumentException.class, () -> new Horse("Ivan", 1, -2));
 		Assert.assertEquals("Distance cannot be negative.", e.getMessage());
+	}
+	@Test
+	public void shouldBeString() throws NoSuchFieldException, IllegalAccessException {
+		Horse horse = new Horse("Ivan", 1, 2);
+		String testName = "Ivan";
+		Field name = (Horse.class.getDeclaredField("name"));
+		name.setAccessible(true);
+		String nameGet = (String) name.get(horse);
+		name.setAccessible(false);
+		Assert.assertEquals(testName, nameGet);
+	}
+	@Test
+	public void shouldBeDouble() throws NoSuchFieldException, IllegalAccessException {
+		Horse horse = new Horse("Ivan", 1, 2);
+		double testSpeed = 1;
+		Field speed = Horse.class.getDeclaredField("speed");
+		speed.setAccessible(true);
+		double speedGet = (double) speed.get(horse);
+		Assert.assertEquals(testSpeed,speedGet,0.0000001);
+	}
+	@Test
+	public void shouldBeDoubleAndZero() throws NoSuchFieldException, IllegalAccessException {
+		Horse horse = new Horse("Ivan", 1, 1);
+		double testDistance = 1;
+		Field distance = Horse.class.getDeclaredField("distance");
+		distance.setAccessible(true);
+		double distanceGet = (double) distance.get(horse);
+		Assert.assertEquals(testDistance,distanceGet,0.0000001);
+
+		Horse zeroHorse = new Horse("Ivan",1);
+		double zero = 0;
+		double distanceGetZero = (double) distance.get(zeroHorse);
+		Assert.assertEquals(zero,distanceGetZero,0.0000001);
+
 	}
 }
