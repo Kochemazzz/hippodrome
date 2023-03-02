@@ -3,8 +3,14 @@ import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.Mock;
+import org.mockito.MockedStatic;
 
 import java.lang.reflect.Field;
+import java.util.List;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
 public class HorseTest {
 	@Test
 	public void nullNameException() {
@@ -82,6 +88,16 @@ public class HorseTest {
 		double zero = 0;
 		double distanceGetZero = (double) distance.get(zeroHorse);
 		Assert.assertEquals(zero,distanceGetZero,0.0000001);
+	}
+
+
+	@Test
+	public void shouldBeNormalGetRandomDoble() {
+
+		MockedStatic<Horse> mockHorse = mockStatic(Horse.class);
+		new Horse("Ivan",1,2).move();
+		mockHorse.verify(() -> Horse.getRandomDouble(0.2,0.9));
+
 
 	}
 }
