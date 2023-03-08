@@ -1,5 +1,6 @@
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -9,9 +10,7 @@ import org.mockito.MockedStatic;
 import java.lang.reflect.Field;
 import java.util.*;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockStatic;
-
+import static org.mockito.Mockito.*;
 
 public class HippodromeTest {
 	@Test
@@ -38,5 +37,16 @@ public class HippodromeTest {
 		Assert.assertEquals(horses,hippodrome.getHorses());
 		Assert.assertEquals(winner,hippodrome.getWinner());
 	}
-
+@Test
+	public void shouldBeMove(){
+		List<Horse> horses = new ArrayList<>();
+	for (int i = 0; i <50 ; i++) {
+		horses.add(mock(Horse.class));
+	}
+	Hippodrome hippodrome = new Hippodrome(horses);
+	hippodrome.move();
+	for (Horse hors : horses) {
+		verify(hors).move();
+	}
+}
 }
