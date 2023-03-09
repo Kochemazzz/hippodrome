@@ -16,9 +16,10 @@ public class Main {
                 new Horse("Лобстер", 2.8),
                 new Horse("Пегас", 2.9),
                 new Horse("Вишня", 3)
+
         );
         Hippodrome hippodrome = new Hippodrome(horses);
-        logger.debug("Кол-во",horses.size());
+        logger.info("Начало скачек. Кол-во участников:"+ horses.size());
 
         for (int i = 0; i < 4; i++) {
             hippodrome.move();
@@ -28,6 +29,7 @@ public class Main {
 
         String winnerName = hippodrome.getWinner().getName();
         System.out.println("Победил " + winnerName + "!");
+        logger.info("Окончание скачек. Победитель: "+ winnerName);
     }
 
     private static void watch(Hippodrome hippodrome) throws Exception {
